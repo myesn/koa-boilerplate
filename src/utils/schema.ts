@@ -1,6 +1,6 @@
 import { ObjectSchema } from "joi";
 
-function check(schema: ObjectSchema, data: any) {
+function check(data: any, schema?: ObjectSchema) {
   if (!schema) {
     return null;
   }

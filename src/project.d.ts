@@ -27,10 +27,10 @@
 import { ObjectSchema } from "joi";
 
 declare type DefaultSchema = {
-  find: ObjectSchema;
-  create: ObjectSchema;
-  update: ObjectSchema;
-  delete: ObjectSchema;
+  find?: ObjectSchema;
+  create?: ObjectSchema;
+  update?: ObjectSchema;
+  delete?: ObjectSchema;
 };
 
 declare type PagerParam = {

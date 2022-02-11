@@ -6,7 +6,7 @@ import { DefaultSchema } from "../project";
 export default class CommonController {
   constructor(
     protected service: CommonService,
-    protected schema: DefaultSchema
+    protected schema?: DefaultSchema
   ) {}
 
   async list(ctx: Koa.ExtendableContext) {
@@ -19,7 +19,7 @@ export default class CommonController {
     const { query } = ctx.request;
     const { id } = query;
 
-    schemaUtils.check(this.schema.find, query);
+    schemaUtils.check(query, this.schema?.find);
 
     ctx.body = await this.service.findById(<string>id);
   }
@@ -27,7 +27,7 @@ export default class CommonController {
   async create(ctx: Koa.ExtendableContext) {
     const { body } = ctx.request;
 
-    schemaUtils.check(this.schema.create, body);
+    schemaUtils.check(body, this.schema?.create);
     await this.service.create(body);
 
     responseUtils.ok(ctx);
@@ -35,7 +35,7 @@ export default class CommonController {
 
   async update(ctx: Koa.ExtendableContext) {
     const { body } = ctx.request;
-    schemaUtils.check(this.schema.update, body);
+    schemaUtils.check(body, this.schema?.update);
 
     const { id, ...props } = body;
     await this.service.updateById(id, props);
@@ -45,7 +45,7 @@ export default class CommonController {
 
   async delete(ctx: Koa.ExtendableContext) {
     const { body } = ctx.request;
-    schemaUtils.check(this.schema.delete, body);
+    schemaUtils.check(body, this.schema?.delete);
 
     const { id } = body;
     await this.service.deleteById(id);
