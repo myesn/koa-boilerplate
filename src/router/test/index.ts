@@ -1,5 +1,5 @@
 import Router from "@koa/router";
-import TestController from "../../controller/test";
+import { TestController } from "../../controller";
 import Koa from "koa";
 
 const router = new Router();
