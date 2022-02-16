@@ -26,6 +26,16 @@ export default class CommonService {
     };
   }
 
+  async find(filter: Document): Promise<Document | null> {
+    const collection = await toCollection(this.collectionName);
+    const row = await collection.findOne(filter);
+    if (!row) {
+      return null;
+    }
+
+    return this.mapRowId(row);
+  }
+
   async findById(id: string | ObjectId): Promise<Document | null> {
     const collection = await toCollection(this.collectionName);
     const row = await collection.findOne({
@@ -38,9 +48,11 @@ export default class CommonService {
     return this.mapRowId(row);
   }
 
-  async create(body: { [key: string]: any }): Promise<void> {
+  async create(body: { [key: string]: any }): Promise<ObjectId> {
     const collection = await toCollection(this.collectionName);
-    await collection.insertOne(body);
+    const result = await collection.insertOne(body);
+
+    return result.insertedId;
   }
 
   async updateById(
