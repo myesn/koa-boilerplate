@@ -3,11 +3,8 @@ import { schemaUtils, responseUtils } from "../utils";
 import CommonService from "../service/common";
 import { DefaultSchema } from "../project";
 
-export default class CommonController {
-  constructor(
-    protected service: CommonService,
-    protected schema?: DefaultSchema
-  ) {}
+export default class CommonController<TService extends CommonService> {
+  constructor(protected service: TService, protected schema?: DefaultSchema) {}
 
   async list(ctx: Koa.ExtendableContext) {
     const { query } = ctx.request;
