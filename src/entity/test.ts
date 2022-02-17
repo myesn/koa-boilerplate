@@ -1,6 +1,5 @@
-import { ObjectId } from "mongodb";
+import { IdEntity } from "./id";
 
-export type TestEntity = {
-  id: ObjectId;
+export type TestEntity = IdEntity & {
   name: string;
 };
