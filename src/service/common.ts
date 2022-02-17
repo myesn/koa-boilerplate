@@ -26,7 +26,7 @@ export default class CommonService<TEntity> {
     };
   }
 
-  async find(filter: TEntity): Promise<TEntity | null> {
+  async find(filter: Document): Promise<TEntity | null> {
     const collection = await toCollection(this.collectionName);
     const row = await collection.findOne(filter);
     if (!row) {
