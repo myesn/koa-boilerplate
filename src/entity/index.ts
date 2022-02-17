@@ -1,1 +1,1 @@
-export { default as TestEntity } from "./test";
+export { TestEntity } from "./test";

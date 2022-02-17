@@ -1,6 +1,6 @@
-import { Document, ObjectId } from "mongodb";
+import { ObjectId } from "mongodb";
 
-export default interface TestEntity extends Document {
+export type TestEntity = {
   id: ObjectId;
   name: string;
-}
+};
