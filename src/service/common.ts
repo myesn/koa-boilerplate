@@ -4,10 +4,10 @@ import { ObjectId, WithId } from "mongodb";
 import { Document } from "bson";
 import { PagerParam, PagerResult } from "../project";
 
-export default class CommonService {
+export default class CommonService<TEntity> {
   constructor(protected collectionName: string) {}
 
-  async list(param?: PagerParam): Promise<PagerResult> {
+  async list(param?: PagerParam): Promise<PagerResult<TEntity>> {
     const collection = await toCollection(this.collectionName);
     const total = await collection.countDocuments();
     const rows = await collection
@@ -18,7 +18,7 @@ export default class CommonService {
         }
       )
       .toArray();
-    const items = rows.map((row) => this.mapRowId(row));
+    const items = rows.map((row) => <any>this.mapRowId(row));
 
     return {
       total,
@@ -26,17 +26,17 @@ export default class CommonService {
     };
   }
 
-  async find(filter: Document): Promise<Document | null> {
+  async find(filter: TEntity): Promise<TEntity | null> {
     const collection = await toCollection(this.collectionName);
     const row = await collection.findOne(filter);
     if (!row) {
       return null;
     }
 
-    return this.mapRowId(row);
+    return <any>this.mapRowId(row);
   }
 
-  async findById(id: string | ObjectId): Promise<Document | null> {
+  async findById(id: string | ObjectId): Promise<TEntity | null> {
     const collection = await toCollection(this.collectionName);
     const row = await collection.findOne({
       _id: mongodbUtils.objectId(id),
@@ -45,7 +45,7 @@ export default class CommonService {
       return null;
     }
 
-    return this.mapRowId(row);
+    return <any>this.mapRowId(row);
   }
 
   async create(body: { [key: string]: any }): Promise<ObjectId> {
@@ -73,7 +73,7 @@ export default class CommonService {
     await collection.deleteOne({ _id: mongodbUtils.objectId(id) });
   }
 
-  mapRowId(row: WithId<Document>) {
+  mapRowId(row: WithId<Document>): { id: ObjectId; [key: string]: any } {
     const { _id, ...props } = row;
     return {
       id: _id,

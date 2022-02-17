@@ -38,7 +38,7 @@ declare type PagerParam = {
   limit?: number;
 };
 
-declare type PagerResult = {
+declare type PagerResult<TEntity> = {
   total: number;
-  items: any[];
+  items: TEntity[];
 };
