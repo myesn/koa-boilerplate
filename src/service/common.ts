@@ -4,7 +4,7 @@ import { ObjectId, WithId } from "mongodb";
 import { Document } from "bson";
 import { PagerParam, PagerResult } from "../project";
 
-export default class CommonService<TEntity> {
+export default class CommonService<TEntity = any> {
   constructor(protected collectionName: string) {}
 
   async list(param?: PagerParam): Promise<PagerResult<TEntity>> {
