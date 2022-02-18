@@ -1,6 +1,6 @@
+import Koa from "koa";
 import Router from "@koa/router";
 import { TestController } from "../controller";
-import Koa from "koa";
 
 const router = new Router();
 const controller = new TestController();
