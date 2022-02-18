@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
 
 export type IdEntity = {
-  id: ObjectId;
+  id: ObjectId | string;
 };
