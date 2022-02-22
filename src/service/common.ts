@@ -11,13 +11,13 @@ export default class CommonService<TEntity = any> {
     const collection = await toCollection(this.collectionName);
     const total = await collection.countDocuments();
     const rows = await collection
-        .find(
-            {},
-            {
-              ...param,
-            }
-        )
-        .toArray();
+      .find(
+        {},
+        {
+          ...param,
+        }
+      )
+      .toArray();
     const items = rows.map((row) => <any>this.mapRowId(row));
 
     return {
@@ -79,16 +79,21 @@ export default class CommonService<TEntity = any> {
     return result.insertedId;
   }
 
+  async createMany(body: { [key: string]: any }[]): Promise<void> {
+    const collection = await toCollection(this.collectionName);
+    await collection.insertMany(body);
+  }
+
   async updateById(
-      id: string | ObjectId,
-      update: { [key: string]: any }
+    id: string | ObjectId,
+    update: { [key: string]: any }
   ): Promise<void> {
     const collection = await toCollection(this.collectionName);
     await collection.updateOne(
-        { _id: mongodbUtils.objectId(id) },
-        {
-          $set: update,
-        }
+      { _id: mongodbUtils.objectId(id) },
+      {
+        $set: update,
+      }
     );
   }
 
