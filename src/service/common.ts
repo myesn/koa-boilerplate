@@ -1,6 +1,6 @@
 import { toCollection } from "../store";
 import { mongodbUtils } from "../utils";
-import { ObjectId, WithId } from "mongodb";
+import { FindOptions, ObjectId } from "mongodb";
 import { Document } from "bson";
 import { PagerParam, PagerResult } from "../project";
 
@@ -11,13 +11,13 @@ export default class CommonService<TEntity = any> {
     const collection = await toCollection(this.collectionName);
     const total = await collection.countDocuments();
     const rows = await collection
-      .find(
-        {},
-        {
-          ...param,
-        }
-      )
-      .toArray();
+        .find(
+            {},
+            {
+              ...param,
+            }
+        )
+        .toArray();
     const items = rows.map((row) => <any>this.mapRowId(row));
 
     return {
@@ -55,9 +55,9 @@ export default class CommonService<TEntity = any> {
     return count > 0;
   }
 
-  async find(filter: Document): Promise<TEntity | null> {
+  async find(filter: Document, options?: FindOptions): Promise<TEntity | null> {
     const collection = await toCollection(this.collectionName);
-    const row = await collection.findOne(filter);
+    const row = await collection.findOne(filter, options);
     if (!row) {
       return null;
     }
@@ -65,11 +65,17 @@ export default class CommonService<TEntity = any> {
     return <any>this.mapRowId(row);
   }
 
-  async findById(id: string | ObjectId): Promise<TEntity | null> {
+  async findById(
+      id: string | ObjectId,
+      options?: FindOptions
+  ): Promise<TEntity | null> {
     const collection = await toCollection(this.collectionName);
-    const row = await collection.findOne({
-      _id: mongodbUtils.objectId(id),
-    });
+    const row = await collection.findOne(
+        {
+          _id: mongodbUtils.objectId(id),
+        },
+        options
+    );
     if (!row) {
       return null;
     }
@@ -90,15 +96,15 @@ export default class CommonService<TEntity = any> {
   }
 
   async updateById(
-    id: string | ObjectId,
-    update: { [key: string]: any }
+      id: string | ObjectId,
+      update: { [key: string]: any }
   ): Promise<void> {
     const collection = await toCollection(this.collectionName);
     await collection.updateOne(
-      { _id: mongodbUtils.objectId(id) },
-      {
-        $set: update,
-      }
+        { _id: mongodbUtils.objectId(id) },
+        {
+          $set: update,
+        }
     );
   }
 
@@ -107,7 +113,7 @@ export default class CommonService<TEntity = any> {
     await collection.deleteOne({ _id: mongodbUtils.objectId(id) });
   }
 
-  mapRowId(row: WithId<Document>): { id: ObjectId; [key: string]: any } {
+  mapRowId(row: any): { id: ObjectId; [key: string]: any } {
     const { _id, ...props } = row;
     return {
       id: _id,
