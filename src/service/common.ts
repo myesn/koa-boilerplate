@@ -11,13 +11,13 @@ export default class CommonService<TEntity = any> {
     const collection = await toCollection(this.collectionName);
     const total = await collection.countDocuments();
     const rows = await collection
-      .find(
-        {},
-        {
-          ...param,
-        }
-      )
-      .toArray();
+        .find(
+            {},
+            {
+              ...param,
+            }
+        )
+        .toArray();
     const items = rows.map((row) => <any>this.mapRowId(row));
 
     return {
@@ -48,6 +48,11 @@ export default class CommonService<TEntity = any> {
   async countByFilter(filter: Document): Promise<number> {
     const collection = await toCollection(this.collectionName);
     return await collection.countDocuments(filter);
+  }
+
+  async existsByFilter(filter: Document): Promise<boolean> {
+    const count = await this.countByFilter(filter);
+    return count > 0;
   }
 
   async find(filter: Document): Promise<TEntity | null> {
@@ -85,15 +90,15 @@ export default class CommonService<TEntity = any> {
   }
 
   async updateById(
-    id: string | ObjectId,
-    update: { [key: string]: any }
+      id: string | ObjectId,
+      update: { [key: string]: any }
   ): Promise<void> {
     const collection = await toCollection(this.collectionName);
     await collection.updateOne(
-      { _id: mongodbUtils.objectId(id) },
-      {
-        $set: update,
-      }
+        { _id: mongodbUtils.objectId(id) },
+        {
+          $set: update,
+        }
     );
   }
 
