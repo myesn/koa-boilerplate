@@ -11,13 +11,13 @@ export default class CommonService<TEntity = any> {
     const collection = await toCollection(this.collectionName);
     const total = await collection.countDocuments();
     const rows = await collection
-        .find(
-            {},
-            {
-              ...param,
-            }
-        )
-        .toArray();
+      .find(
+        {},
+        {
+          ...param,
+        }
+      )
+      .toArray();
     const items = rows.map((row) => <any>this.mapRowId(row));
 
     return {
@@ -50,6 +50,11 @@ export default class CommonService<TEntity = any> {
     return await collection.countDocuments(filter);
   }
 
+  async existsById(id: string | ObjectId): Promise<boolean> {
+    const count = await this.countByFilter({ _id: mongodbUtils.objectId(id) });
+    return count > 0;
+  }
+
   async existsByFilter(filter: Document): Promise<boolean> {
     const count = await this.countByFilter(filter);
     return count > 0;
@@ -66,15 +71,15 @@ export default class CommonService<TEntity = any> {
   }
 
   async findById(
-      id: string | ObjectId,
-      options?: FindOptions
+    id: string | ObjectId,
+    options?: FindOptions
   ): Promise<TEntity | null> {
     const collection = await toCollection(this.collectionName);
     const row = await collection.findOne(
-        {
-          _id: mongodbUtils.objectId(id),
-        },
-        options
+      {
+        _id: mongodbUtils.objectId(id),
+      },
+      options
     );
     if (!row) {
       return null;
@@ -96,15 +101,15 @@ export default class CommonService<TEntity = any> {
   }
 
   async updateById(
-      id: string | ObjectId,
-      update: { [key: string]: any }
+    id: string | ObjectId,
+    update: { [key: string]: any }
   ): Promise<void> {
     const collection = await toCollection(this.collectionName);
     await collection.updateOne(
-        { _id: mongodbUtils.objectId(id) },
-        {
-          $set: update,
-        }
+      { _id: mongodbUtils.objectId(id) },
+      {
+        $set: update,
+      }
     );
   }
 
