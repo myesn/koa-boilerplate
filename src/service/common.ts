@@ -88,6 +88,20 @@ export default class CommonService<TEntity = any> {
     return <any>this.mapRowId(row);
   }
 
+  async getSingleFieldValueById(id: string | ObjectId, fieldName: string) {
+    const row = await this.findById(id, {
+      projection: {
+        [fieldName]: 1,
+      },
+    });
+
+    if (!row) {
+      throw new Error("未能根据 ID 查找到数据");
+    }
+
+    return (<any>row)[fieldName];
+  }
+
   async create(body: { [key: string]: any }): Promise<ObjectId> {
     const collection = await toCollection(this.collectionName);
     const result = await collection.insertOne(body);
