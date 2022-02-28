@@ -106,23 +106,53 @@ export default class CommonService<TEntity = any> {
     return (<any>row)[fieldName];
   }
 
-  async create(body: { [key: string]: any }): Promise<ObjectId> {
+  async create(
+      body: { [key: string]: any },
+      options: {
+        autoAddCreateTime: boolean;
+      } = { autoAddCreateTime: true }
+  ): Promise<ObjectId> {
     const collection = await this.getCollection();
+
+    if (options.autoAddCreateTime) {
+      body.createTime = new Date();
+    }
+
     const result = await collection.insertOne(body);
 
     return result.insertedId;
   }
 
-  async createMany(body: { [key: string]: any }[]): Promise<void> {
+  async createMany(
+      bodyArray: { [key: string]: any }[],
+      options: {
+        autoAddCreateTime: boolean;
+      } = { autoAddCreateTime: true }
+  ): Promise<void> {
     const collection = await this.getCollection();
-    await collection.insertMany(body);
+
+    if (options.autoAddCreateTime) {
+      bodyArray.forEach((body) => {
+        body.createTime = new Date();
+      });
+    }
+
+    await collection.insertMany(bodyArray);
   }
 
   async updateById(
       id: string | ObjectId,
-      update: { [key: string]: any }
+      update: { [key: string]: any },
+      options: {
+        autoAddUpdateTime: boolean;
+      } = { autoAddUpdateTime: true }
   ): Promise<void> {
     const collection = await this.getCollection();
+
+    if (options.autoAddUpdateTime) {
+      update.updateTime = new Date();
+    }
+
     await collection.updateOne(
         { _id: mongodbUtils.objectId(id) },
         {
