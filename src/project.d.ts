@@ -33,12 +33,23 @@ declare type DefaultSchema = {
   delete?: ObjectSchema;
 };
 
-declare type PagerParam = {
+declare type PagingParam = {
   skip?: number;
   limit?: number;
 };
 
-declare type PagerResult<TEntity> = {
+declare type PagingResult<TEntity> = {
   total: number;
   items: TEntity[];
+};
+
+declare type MongoDBAggregateLookupType = {
+  /** 指定要执行联接的同一数据库中的集合 */
+  from: string;
+  /** 当前集合中的字段名称 */
+  localField: string;
+  /** from 集合中的字段名称 */
+  foreignField: string;
+  /** 输出的数组字段名称 */
+  as: string;
 };

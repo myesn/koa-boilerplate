@@ -9,7 +9,7 @@ export default class CommonController<TService extends CommonService> {
   async list(ctx: Koa.ExtendableContext) {
     const { query } = ctx.request;
 
-    ctx.body = await this.service.list(query);
+    ctx.body = await this.service.paging({}, query);
   }
 
   async find(ctx: Koa.ExtendableContext) {

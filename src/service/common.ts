@@ -2,7 +2,7 @@ import { Document } from "bson";
 import { FindOptions, ObjectId } from "mongodb";
 import { toCollection } from "../store";
 import { mongodbUtils } from "../utils";
-import { PagerParam, PagerResult } from "../project";
+import { PagingResult } from "../project";
 
 export default class CommonService<TEntity = any> {
   constructor(protected collectionName: string) {}
@@ -11,17 +11,13 @@ export default class CommonService<TEntity = any> {
     return await toCollection(this.collectionName);
   }
 
-  async list(param?: PagerParam): Promise<PagerResult<TEntity>> {
+  async paging(
+    filter: Document,
+    options?: FindOptions
+  ): Promise<PagingResult<TEntity>> {
     const collection = await this.getCollection();
-    const total = await collection.countDocuments();
-    const rows = await collection
-        .find(
-            {},
-            {
-              ...param,
-            }
-        )
-        .toArray();
+    const total = await collection.countDocuments(filter);
+    const rows = await collection.find(filter, options).toArray();
     const items = rows.map((row) => <any>this.mapRowId(row));
 
     return {
@@ -30,37 +26,25 @@ export default class CommonService<TEntity = any> {
     };
   }
 
-  async simpleList(): Promise<TEntity[]> {
+  async list(filter?: Document): Promise<TEntity[]> {
     const collection = await this.getCollection();
-    const rows = await collection.find().toArray();
+    const rows = await collection.find(filter ?? {}).toArray();
 
     return rows.map((row) => <any>this.mapRowId(row));
   }
 
-  async simpleListByFilter(filter: Document): Promise<TEntity[]> {
+  async count(filter?: Document): Promise<number> {
     const collection = await this.getCollection();
-    const rows = await collection.find(filter).toArray();
-
-    return rows.map((row) => <any>this.mapRowId(row));
+    return await collection.countDocuments(filter??{});
   }
 
-  async count(): Promise<number> {
-    const collection = await this.getCollection();
-    return await collection.countDocuments();
-  }
-
-  async countByFilter(filter: Document): Promise<number> {
-    const collection = await this.getCollection();
-    return await collection.countDocuments(filter);
-  }
-
-  async existsById(id: string | ObjectId): Promise<boolean> {
-    const count = await this.countByFilter({ _id: mongodbUtils.objectId(id) });
+  async exists(filter?: Document): Promise<boolean> {
+    const count = await this.count(filter);
     return count > 0;
   }
 
-  async existsByFilter(filter: Document): Promise<boolean> {
-    const count = await this.countByFilter(filter);
+  async existsById(id: string | ObjectId): Promise<boolean> {
+    const count = await this.count({ _id: mongodbUtils.objectId(id) });
     return count > 0;
   }
 
@@ -75,15 +59,15 @@ export default class CommonService<TEntity = any> {
   }
 
   async findById(
-      id: string | ObjectId,
-      options?: FindOptions
+    id: string | ObjectId,
+    options?: FindOptions
   ): Promise<TEntity | null> {
     const collection = await this.getCollection();
     const row = await collection.findOne(
-        {
-          _id: mongodbUtils.objectId(id),
-        },
-        options
+      {
+        _id: mongodbUtils.objectId(id),
+      },
+      options
     );
     if (!row) {
       return null;
@@ -107,10 +91,10 @@ export default class CommonService<TEntity = any> {
   }
 
   async create(
-      body: { [key: string]: any },
-      options: {
-        autoAddCreateTime: boolean;
-      } = { autoAddCreateTime: true }
+    body: { [key: string]: any },
+    options: {
+      autoAddCreateTime: boolean;
+    } = { autoAddCreateTime: true }
   ): Promise<ObjectId> {
     const collection = await this.getCollection();
 
@@ -124,10 +108,10 @@ export default class CommonService<TEntity = any> {
   }
 
   async createMany(
-      bodyArray: { [key: string]: any }[],
-      options: {
-        autoAddCreateTime: boolean;
-      } = { autoAddCreateTime: true }
+    bodyArray: { [key: string]: any }[],
+    options: {
+      autoAddCreateTime: boolean;
+    } = { autoAddCreateTime: true }
   ): Promise<void> {
     const collection = await this.getCollection();
 
@@ -141,11 +125,11 @@ export default class CommonService<TEntity = any> {
   }
 
   async updateById(
-      id: string | ObjectId,
-      update: { [key: string]: any },
-      options: {
-        autoAddUpdateTime: boolean;
-      } = { autoAddUpdateTime: true }
+    id: string | ObjectId,
+    update: { [key: string]: any },
+    options: {
+      autoAddUpdateTime: boolean;
+    } = { autoAddUpdateTime: true }
   ): Promise<void> {
     const collection = await this.getCollection();
 
@@ -154,10 +138,10 @@ export default class CommonService<TEntity = any> {
     }
 
     await collection.updateOne(
-        { _id: mongodbUtils.objectId(id) },
-        {
-          $set: update,
-        }
+      { _id: mongodbUtils.objectId(id) },
+      {
+        $set: update,
+      }
     );
   }
 
