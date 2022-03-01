@@ -1,11 +1,12 @@
 import Koa from "koa";
 import Router from "@koa/router";
 import { TestController } from "../controller";
+import {KoaCustomAppContext, KoaCustomAppState} from "../project";
 
 const router = new Router();
 const controller = new TestController();
 
-export default (app: Koa) => {
+export default (app: Koa<KoaCustomAppState, KoaCustomAppContext>) => {
   router.prefix("/api/test");
 
   router.get("/list", controller.list.bind(controller));

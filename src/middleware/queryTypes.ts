@@ -1,9 +1,10 @@
-import Koa, { Next } from "koa";
+import { Next } from "koa";
 import qs from "qs";
+import { KoaCustomAppContext } from "../project";
 
 // https://github.com/ljharb/qs#parsing-primitivescalar-values-numbers-booleans-null-etc
 // koa 的 ctx.request.query 对象中字段的值只会是 string 类型，通过以下方式转换为实际类型
-export default () => async (ctx: Koa.ExtendableContext, next: Next) => {
+export default () => async (ctx: KoaCustomAppContext, next: Next) => {
   // @ts-ignore
   const qq = qs.parse(ctx.request.querystring, {
     decoder(str, decoder, charset) {

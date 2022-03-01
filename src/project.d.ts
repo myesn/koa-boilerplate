@@ -24,6 +24,7 @@
 //
 // declare interface Controller {}
 
+import Koa from "koa";
 import { ObjectSchema } from "joi";
 
 declare type DefaultSchema = {
@@ -53,3 +54,17 @@ declare type MongoDBAggregateLookupType = {
   /** 输出的数组字段名称 */
   as: string;
 };
+
+declare interface KoaCustomAppStateUser {
+  id: ObjectId;
+}
+
+// https://stackoverflow.com/questions/43160598/adding-properties-to-koa2s-context-in-typescript
+declare interface KoaCustomAppState {
+  user: KoaCustomAppStateUser;
+}
+
+declare interface KoaCustomAppContext extends Koa.ExtendableContext {
+  state: KoaCustomAppState;
+}
+
