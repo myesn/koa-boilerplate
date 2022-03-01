@@ -35,7 +35,7 @@ export default class CommonService<TEntity = any> {
 
   async count(filter?: Document): Promise<number> {
     const collection = await this.getCollection();
-    return await collection.countDocuments(filter??{});
+    return await collection.countDocuments(filter ?? {});
   }
 
   async exists(filter?: Document): Promise<boolean> {
@@ -116,8 +116,9 @@ export default class CommonService<TEntity = any> {
     const collection = await this.getCollection();
 
     if (options.autoAddCreateTime) {
+      const now = new Date();
       bodyArray.forEach((body) => {
-        body.createTime = new Date();
+        body.createTime = now;
       });
     }
 
