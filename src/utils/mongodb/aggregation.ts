@@ -21,6 +21,9 @@ export class Aggregation {
     concat(expressions: Document[]) {
       return { $concat: expressions };
     },
+    cond(expressions: Document[]) {
+      return { $cond: expressions };
+    },
     reduce(doc: MongoDBAggregationReduceOperator) {
       return { $reduce: doc };
     },
