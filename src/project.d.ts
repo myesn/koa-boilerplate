@@ -35,8 +35,8 @@ declare type DefaultSchema = {
 };
 
 declare type PagingParam = {
-  skip?: number;
-  limit?: number;
+  skip: number;
+  limit: number;
 };
 
 declare type PagingResult<TEntity> = {
