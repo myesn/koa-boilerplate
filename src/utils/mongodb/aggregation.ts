@@ -48,7 +48,7 @@ export class Aggregation {
   }
 
   limit(count: number) {
-    if (count > 0) {
+    if (count < 1) {
       throw new Error("limit 必须是一个正整数");
     }
 
