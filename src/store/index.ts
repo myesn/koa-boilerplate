@@ -16,5 +16,5 @@ client.connect((error) => {
 export async function toCollection<TSchema extends Document = Document>(
   name: string
 ): Promise<Collection<TSchema>> {
-  return Promise.resolve(client.db().collection(name));
+  return Promise.resolve(client.db().collection<TSchema>(name));
 }
