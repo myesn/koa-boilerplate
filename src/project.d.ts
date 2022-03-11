@@ -26,6 +26,7 @@
 
 import Koa from "koa";
 import { ObjectSchema } from "joi";
+import { Document } from "bson";
 
 declare type DefaultSchema = {
   find?: ObjectSchema;
@@ -64,6 +65,15 @@ declare type MongoDBAggregationMapOperator = {
   in: Document;
 };
 
+declare type MongoDBAggregationReduceOperator = {
+  /** 可以是解析为数组的任何有效表达式 */
+  input: string;
+  /** 在in之前设置的初始累积值应用于输入数组的第一个元素 */
+  initialValue: string;
+  /** $reduce以从左到右的顺序应用于输入数组中的每个元素的有效表达式 */
+  in: Document;
+};
+
 declare interface KoaCustomAppStateUser {
   id: ObjectId;
 }
@@ -76,4 +86,3 @@ declare interface KoaCustomAppState {
 declare interface KoaCustomAppContext extends Koa.ExtendableContext {
   state: KoaCustomAppState;
 }
-

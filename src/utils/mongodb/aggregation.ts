@@ -2,6 +2,7 @@ import { Collection, Document } from "mongodb";
 import {
   MongoDBAggregationLookupStage,
   MongoDBAggregationMapOperator,
+  MongoDBAggregationReduceOperator,
 } from "../../project";
 
 export class Aggregation {
@@ -19,6 +20,9 @@ export class Aggregation {
     },
     concat(expressions: Document[]) {
       return { $concat: expressions };
+    },
+    reduce(doc: MongoDBAggregationReduceOperator) {
+      return { $reduce: doc };
     },
   };
 
