@@ -27,6 +27,10 @@ export class Aggregation {
     return this.pushStageToPipeline({ $lookup: join });
   }
 
+  project(doc: Document) {
+    return this.pushStageToPipeline({ $project: doc });
+  }
+
   set(doc: Document) {
     return this.pushStageToPipeline({ $set: doc });
   }
@@ -37,18 +41,23 @@ export class Aggregation {
 
   skip(count: number) {
     if (count < 0) {
-      throw new Error("skip 必须是一个正整数");
+      throw new Error("skip 不能小于 0");
     }
 
     return this.pushStageToPipeline({ $skip: count });
   }
 
   limit(count: number) {
-    if (count < 0) {
+    if (count > 0) {
       throw new Error("limit 必须是一个正整数");
     }
 
     return this.pushStageToPipeline({ $limit: count });
+  }
+
+  /** asc:1；desc：-1 */
+  sort(doc: { [key: string]: 1 | -1 }) {
+    return this.pushStageToPipeline({ $sort: doc });
   }
 
   count(outputFieldName: string) {
