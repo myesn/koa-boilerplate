@@ -1,5 +1,6 @@
 import { Collection, Document } from "mongodb";
 import {
+  MongoDBAggregationExpression,
   MongoDBAggregationLookupStage,
   MongoDBAggregationMapOperator,
   MongoDBAggregationReduceOperator,
@@ -12,17 +13,20 @@ export class Aggregation {
     map(doc: MongoDBAggregationMapOperator) {
       return { $map: doc };
     },
-    or(expressions: Document[]) {
+    or(expressions: MongoDBAggregationExpression[]) {
       return { $or: expressions };
     },
-    first(expression: string) {
+    first(expression: MongoDBAggregationExpression) {
       return { $first: expression };
     },
-    concat(expressions: (Document | string)[]) {
+    concat(expressions: MongoDBAggregationExpression[]) {
       return { $concat: expressions };
     },
-    cond(expressions: Document[]) {
+    cond(expressions: MongoDBAggregationExpression[]) {
       return { $cond: expressions };
+    },
+    eq(expressions: MongoDBAggregationExpression[]) {
+      return { $eq: expressions };
     },
     reduce(doc: MongoDBAggregationReduceOperator) {
       return { $reduce: doc };
