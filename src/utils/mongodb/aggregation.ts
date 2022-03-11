@@ -17,6 +17,9 @@ export class Aggregation {
     first(expression: string) {
       return { $first: expression };
     },
+    concat(expressions: Document[]) {
+      return { $concat: expressions };
+    },
   };
 
   match(query: Document) {
