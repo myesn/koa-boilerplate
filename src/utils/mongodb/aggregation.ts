@@ -1,4 +1,4 @@
-import {Collection, Document} from "mongodb";
+import { Collection, Document } from "mongodb";
 import {
   MongoDBAggregationLookupStage,
   MongoDBAggregationMapOperator,
