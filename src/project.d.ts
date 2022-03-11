@@ -44,7 +44,7 @@ declare type PagingResult<TEntity> = {
   items: TEntity[];
 };
 
-declare type MongoDBAggregateLookupType = {
+declare type MongoDBAggregationLookupStage = {
   /** 指定要执行联接的同一数据库中的集合 */
   from: string;
   /** 当前集合中的字段名称 */
@@ -53,6 +53,15 @@ declare type MongoDBAggregateLookupType = {
   foreignField: string;
   /** 输出的数组字段名称 */
   as: string;
+};
+
+declare type MongoDBAggregationMapOperator = {
+  /** 解析为数组的表达式 */
+  input: string;
+  /** 可选的。表示输入数组中每个单独元素的变量的名称。如果没有指定名称，变量名默认为 this */
+  as?: string;
+  /** 应用于输入数组的每个元素的表达式。该表达式使用 as 中指定的变量名称单独引用每个元素 */
+  in: Document;
 };
 
 declare interface KoaCustomAppStateUser {
