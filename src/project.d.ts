@@ -45,6 +45,8 @@ declare type PagingResult<TEntity> = {
   items: TEntity[];
 };
 
+declare type MongoDBAggregationExpression = Document | string;
+
 declare type MongoDBAggregationLookupStage = {
   /** 指定要执行联接的同一数据库中的集合 */
   from: string;
