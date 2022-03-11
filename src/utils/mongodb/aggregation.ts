@@ -18,7 +18,7 @@ export class Aggregation {
     first(expression: string) {
       return { $first: expression };
     },
-    concat(expressions: Document[]) {
+    concat(expressions: (Document | string)[]) {
       return { $concat: expressions };
     },
     cond(expressions: Document[]) {
