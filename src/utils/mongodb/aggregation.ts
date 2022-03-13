@@ -28,6 +28,9 @@ export class Aggregation {
     eq(expressions: MongoDBAggregationExpression[]) {
       return { $eq: expressions };
     },
+    ne(expressions: MongoDBAggregationExpression[]) {
+      return { $ne: expressions };
+    },
     reduce(doc: MongoDBAggregationReduceOperator) {
       return { $reduce: doc };
     },
