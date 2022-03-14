@@ -1,6 +1,7 @@
 import { Collection, Document } from "mongodb";
 import {
   MongoDBAggregationExpression,
+  MongoDBAggregationGroupStage,
   MongoDBAggregationLookupStage,
   MongoDBAggregationMapOperator,
   MongoDBAggregationReduceOperator,
@@ -34,6 +35,9 @@ export class Aggregation {
     reduce(doc: MongoDBAggregationReduceOperator) {
       return { $reduce: doc };
     },
+    count() {
+      return { $count: {} };
+    },
   };
 
   match(query: Document) {
@@ -54,6 +58,10 @@ export class Aggregation {
 
   unset(fieldOrFields: string | string[]) {
     return this.pushStageToPipeline({ $unset: fieldOrFields });
+  }
+
+  group(doc: MongoDBAggregationGroupStage) {
+    return this.pushStageToPipeline({ $group: doc });
   }
 
   skip(count: number) {

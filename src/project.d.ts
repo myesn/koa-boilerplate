@@ -59,6 +59,12 @@ declare type MongoDBAggregationLookupStage = {
   as: string;
 };
 
+declare type MongoDBAggregationGroupStage = {
+  /** 必需的。如果将 _id 值指定为 null 或任何其他常量值，则 $group 阶段将计算所有输入文档的累计值 */
+  _id: string;
+  [key: string]: Document;
+};
+
 declare type MongoDBAggregationMapOperator = {
   /** 解析为数组的表达式 */
   input: string;
