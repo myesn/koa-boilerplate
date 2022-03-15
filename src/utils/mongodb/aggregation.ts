@@ -52,6 +52,12 @@ export class Aggregation {
     return this.pushStageToPipeline({ $project: doc });
   }
 
+  replaceRoot(replacementDocument: string | Document) {
+    return this.pushStageToPipeline({
+      $replaceRoot: { newRoot: replacementDocument },
+    });
+  }
+
   set(doc: Document) {
     return this.pushStageToPipeline({ $set: doc });
   }
