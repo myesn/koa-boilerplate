@@ -5,6 +5,7 @@ import {
   MongoDBAggregationLookupStage,
   MongoDBAggregationMapOperator,
   MongoDBAggregationReduceOperator,
+  MongoDBAggregationFilterOperator,
 } from "../../project";
 
 export class Aggregation {
@@ -37,6 +38,9 @@ export class Aggregation {
     },
     count() {
       return { $count: {} };
+    },
+    filter(doc: MongoDBAggregationFilterOperator) {
+      return { $filter: doc };
     },
   };
 
