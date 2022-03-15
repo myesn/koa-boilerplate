@@ -51,10 +51,14 @@ declare type MongoDBAggregationExpression = Document | string;
 declare type MongoDBAggregationLookupStage = {
   /** 指定要执行联接的同一数据库中的集合 */
   from: string;
+  /** 指定变量，引用 local collection 中的字段  */
+  let?: Document,
+  /** 在 from collection 上执行的管道 */
+  pipeline?: Document[],
   /** 当前集合中的字段名称 */
-  localField: string;
+  localField?: string;
   /** from 集合中的字段名称 */
-  foreignField: string;
+  foreignField?: string;
   /** 输出的数组字段名称 */
   as: string;
 };
