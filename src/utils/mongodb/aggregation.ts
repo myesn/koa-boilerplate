@@ -42,6 +42,9 @@ export class Aggregation {
     filter(doc: MongoDBAggregationFilterOperator) {
       return { $filter: doc };
     },
+    size(expression: MongoDBAggregationExpression) {
+      return { $size: expression };
+    },
   };
 
   match(query: Document) {
