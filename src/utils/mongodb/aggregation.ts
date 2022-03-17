@@ -6,7 +6,8 @@ import {
   MongoDBAggregationMapOperator,
   MongoDBAggregationReduceOperator,
   MongoDBAggregationFilterOperator,
-  MongoDBAggregationSwitchOperator, MongoDBAggregationDateToStringOperator,
+  MongoDBAggregationSwitchOperator,
+  MongoDBAggregationDateToStringOperator,
 } from "../../project";
 
 export class Aggregation {
@@ -49,9 +50,9 @@ export class Aggregation {
     switch(doc: MongoDBAggregationSwitchOperator) {
       return { $switch: doc };
     },
-    dateToString(doc:MongoDBAggregationDateToStringOperator){
+    dateToString(doc: MongoDBAggregationDateToStringOperator) {
       return { $dateToString: doc };
-    }
+    },
   };
 
   match(query: Document) {
