@@ -52,9 +52,9 @@ declare type MongoDBAggregationLookupStage = {
   /** 指定要执行联接的同一数据库中的集合 */
   from: string;
   /** 指定变量，引用 local collection 中的字段  */
-  let?: Document,
+  let?: Document;
   /** 在 from collection 上执行的管道 */
-  pipeline?: Document[],
+  pipeline?: Document[];
   /** 当前集合中的字段名称 */
   localField?: string;
   /** from 集合中的字段名称 */
@@ -93,8 +93,16 @@ declare type MongoDBAggregationFilterOperator = {
   /** 可选的。表示输入数组中每个单独元素的变量的名称。如果没有指定名称，变量名默认为 this。 */
   as?: string;
   /** 解析为布尔值的表达式，该值用于确定一个元素是否应包含在输出数组中。表达式使用 as 中指定的变量名分别引用输入数组中的每个元素。 */
-  cond: Document
-}
+  cond: Document;
+};
+
+declare type MongoDBAggregationSwitchOperator = {
+  branches: {
+    case: MongoDBAggregationExpression;
+    then: MongoDBAggregationExpression;
+  }[];
+  default?: MongoDBAggregationExpression;
+};
 
 declare interface KoaCustomAppStateUser {
   id: ObjectId;

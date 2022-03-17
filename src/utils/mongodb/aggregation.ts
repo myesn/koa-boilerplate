@@ -6,6 +6,7 @@ import {
   MongoDBAggregationMapOperator,
   MongoDBAggregationReduceOperator,
   MongoDBAggregationFilterOperator,
+  MongoDBAggregationSwitchOperator,
 } from "../../project";
 
 export class Aggregation {
@@ -44,6 +45,9 @@ export class Aggregation {
     },
     size(expression: MongoDBAggregationExpression) {
       return { $size: expression };
+    },
+    switch(doc: MongoDBAggregationSwitchOperator) {
+      return { $switch: doc };
     },
   };
 
