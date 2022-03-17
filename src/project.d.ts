@@ -104,6 +104,23 @@ declare type MongoDBAggregationSwitchOperator = {
   default?: MongoDBAggregationExpression;
 };
 
+declare type MongoDBAggregationDateToStringOperator = {
+  /** 要转换为字符串的日期，必须是解析为 Date、Timestamp 或 ObjectID 的有效表达式。 */
+  date: MongoDBAggregationExpression,
+  /**
+   * 可选的。日期格式规范。 默认："%Y-%m-%dT%H:%M:%S.%LZ"
+   * 参考：https://docs.mongodb.com/manual/reference/operator/aggregation/dateToString/#std-label-format-specifiers
+   */
+  format?: string;
+  /** 可选的。运算结果所在的时区。默认为 UTC */
+  timezone?: MongoDBAggregationExpression;
+  /**
+   * 可选的. 如果日期为空或缺失，则返回的值。
+   * 如果 date 的值为 null 或没有这个字段，则默认返回 null
+   */
+  onNull?: MongoDBAggregationExpression;
+}
+
 declare interface KoaCustomAppStateUser {
   id: ObjectId;
 }
