@@ -51,6 +51,9 @@ export class Aggregation {
       return { $switch: doc };
     },
     dateToString(doc: MongoDBAggregationDateToStringOperator) {
+      doc.format ??= "%Y-%m-%d %H:%M:%S";
+      doc.timezone ??= "Asia/Shanghai";
+
       return { $dateToString: doc };
     },
   };

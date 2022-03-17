@@ -108,11 +108,21 @@ declare type MongoDBAggregationDateToStringOperator = {
   /** 要转换为字符串的日期，必须是解析为 Date、Timestamp 或 ObjectID 的有效表达式。 */
   date: MongoDBAggregationExpression,
   /**
-   * 可选的。日期格式规范。 默认："%Y-%m-%dT%H:%M:%S.%LZ"
+   * 可选的。日期格式规范。 默认："%Y-%m-%dT%H:%M:%S.%LZ",（在本项目中默认为 %Y-%m-%d %H:%M:%S）
+   *
+   * 年：%Y
+   * 月：%m
+   * 日：%d
+   * 时：%H
+   * 分：%M
+   * 秒：%S
    * 参考：https://docs.mongodb.com/manual/reference/operator/aggregation/dateToString/#std-label-format-specifiers
    */
   format?: string;
-  /** 可选的。运算结果所在的时区。默认为 UTC */
+  /**
+   * 可选的。运算结果所在的时区。默认为 UTC（在本项目中默认为 Asia/Shanghai）
+   * 参考：https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+   */
   timezone?: MongoDBAggregationExpression;
   /**
    * 可选的. 如果日期为空或缺失，则返回的值。
