@@ -161,14 +161,17 @@ export class Aggregation {
   /** 直接获取文档数量 */
   async getCount(collection: Collection): Promise<number> {
     const countOutputField = "count";
+
     this.count(countOutputField);
+
     const countObj = await collection.aggregate(this.build()).next();
-    if (!countObj) {
-      return 0;
-    }
 
     // remove count stage
     this.pop();
+
+    if (!countObj) {
+      return 0;
+    }
 
     return countObj[countOutputField] as number;
   }
