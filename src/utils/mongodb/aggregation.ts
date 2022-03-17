@@ -13,6 +13,11 @@ import {
 export class Aggregation {
   constructor(protected pipeline: Document[] = []) {}
 
+  static datePattern = {
+    /** %Y年%m月%d日 */
+    ChineseDate: "%Y年%m月%d日",
+  };
+
   static operator = {
     map(doc: MongoDBAggregationMapOperator) {
       return { $map: doc };
