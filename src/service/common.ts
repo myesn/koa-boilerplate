@@ -1,11 +1,15 @@
 import { Document } from "bson";
 import { FindOptions, ObjectId } from "mongodb";
-import { toCollection } from "../store";
+import { toDb, toCollection } from "../store";
 import { mongodbUtils } from "../utils";
 import { PagingResult } from "../project";
 
 export default class CommonService<TEntity = any> {
   constructor(protected collectionName: string) {}
+
+  async getDb() {
+    return await toDb();
+  }
 
   async getCollection() {
     return await toCollection(this.collectionName);

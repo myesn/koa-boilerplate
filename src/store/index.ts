@@ -1,4 +1,4 @@
-import { Collection, MongoClient } from "mongodb";
+import { Collection, Db, MongoClient } from "mongodb";
 import { Document } from "bson";
 
 const url = "mongodb://localhost:27017/hospital-next";
@@ -12,6 +12,9 @@ client.connect((error) => {
 
   console.log("connected to mongodb..");
 });
+export async function toDb<TSchema extends Document = Document>(): Promise<Db> {
+  return Promise.resolve(client.db());
+}
 
 export async function toCollection<TSchema extends Document = Document>(
   name: string
