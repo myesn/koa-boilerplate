@@ -11,8 +11,8 @@ export default class CommonService<TEntity = any> {
     return await toDb();
   }
 
-  async getCollection() {
-    return await toCollection(this.collectionName);
+  async getCollection(collectionName: string = this.collectionName) {
+    return await toCollection(collectionName);
   }
 
   async paging(
