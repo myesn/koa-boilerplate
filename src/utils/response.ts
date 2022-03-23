@@ -1,8 +1,54 @@
-import Koa from "koa";
+import { Buffer } from "exceljs";
+import { KoaCustomAppContext } from "../project";
 
-function ok(ctx: Koa.DefaultContext): void {
+/** 响应状态码 200 的任意返回值（默认 ""） */
+function ok(ctx: KoaCustomAppContext, body: any = ""): void {
   ctx.status = 200;
-  ctx.body = "";
+  ctx.body = body;
 }
 
-export default { ok };
+/** 响应状态码 200 的 excel 文件 buffer */
+function excel(
+    ctx: KoaCustomAppContext,
+    downloadFileName: string,
+    excelWorkbookBuffer: Buffer
+) {
+  setDownloadFileHeader(ctx, FileContentTypeKind.excel, downloadFileName);
+  ok(ctx, excelWorkbookBuffer);
+}
+
+function setHeader(
+    ctx: KoaCustomAppContext,
+    field: string,
+    val: string | string[]
+) {
+  ctx.set(field, val);
+}
+
+function setHeaders(
+    ctx: KoaCustomAppContext,
+    headers: { [key: string]: string | string[] }
+) {
+  Object.entries(headers).forEach(([field, val]) => {
+    setHeader(ctx, field, val);
+  });
+}
+
+/**　设置下载文件时所属的响应头 */
+function setDownloadFileHeader(
+    ctx: KoaCustomAppContext,
+    kind: FileContentTypeKind,
+    downloadFileName: string
+) {
+  setHeaders(ctx, {
+    "Content-Type": kind,
+    "Content-Disposition":
+        "attachment; filename=" + encodeURIComponent(downloadFileName), // 中文需要编码，否则会报错
+  });
+}
+
+export enum FileContentTypeKind {
+  excel = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+}
+
+export default { ok, excel, setHeader, setHeaders, setDownloadFileHeader };
