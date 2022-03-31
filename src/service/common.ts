@@ -30,9 +30,9 @@ export default class CommonService<TEntity = any> {
     };
   }
 
-  async list(filter?: Document): Promise<TEntity[]> {
+  async list(filter?: Document, options?: FindOptions): Promise<TEntity[]> {
     const collection = await this.getCollection();
-    const rows = await collection.find(filter ?? {}).toArray();
+    const rows = await collection.find(filter ?? {}, options).toArray();
 
     return rows.map((row) => <any>this.mapRowId(row));
   }
