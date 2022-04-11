@@ -1,3 +1,4 @@
+import "dotenv/config";
 import path from "path";
 import Koa from "koa";
 import cors from "@koa/cors";
@@ -10,7 +11,7 @@ import routerArray from "./router";
 import { KoaCustomAppContext, KoaCustomAppState } from "./project";
 
 const app = new Koa<KoaCustomAppState, KoaCustomAppContext>();
-const port = 3000;
+const port = process.env.PORT;
 
 // middlewares
 app.use(async (ctx, next) => {
@@ -43,11 +44,13 @@ app.use(queryTypes());
 routerArray.forEach((router) => router(app));
 
 app.listen(port, () => {
-  console.log(`Node.js v${process.versions.node}`);
+  console.log(
+    `Node.js v${process.versions.node}  Environment: ${process.env.NODE_ENV}`
+  );
   console.log(`Server running at http://localhost:${port}`);
 });
 
 // error-handling
 app.on("error", (err, ctx) => {
-  console.error("server error", err, ctx);
+  console.error("Server error", err, ctx);
 });

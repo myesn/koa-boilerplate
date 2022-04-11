@@ -1,8 +1,11 @@
 import { Collection, Db, MongoClient } from "mongodb";
 import { Document } from "bson";
 
-const url = "mongodb://localhost:27017/hospital-next";
-const client = new MongoClient(url);
+if (!process.env.MONGODB_URL) {
+  throw new Error("缺少数据库连接地址信息");
+}
+
+const client = new MongoClient(process.env.MONGODB_URL);
 
 console.log("connecting to mongodb..");
 client.connect((error) => {
