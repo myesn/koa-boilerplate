@@ -9,6 +9,10 @@ import queryTypes from "./middleware/queryTypes";
 
 import routerArray from "./router";
 import { KoaCustomAppContext, KoaCustomAppState } from "./project";
+import { tempDirectory } from "./constant";
+import { fileUtils } from "./utils";
+
+fileUtils.createDirectory(tempDirectory);
 
 const app = new Koa<KoaCustomAppState, KoaCustomAppContext>();
 const port = process.env.PORT;
