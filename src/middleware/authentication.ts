@@ -9,7 +9,7 @@ function isMatchIgnoreAuthorizationEndpoints(ctx: KoaCustomAppContext) {
   const ignoredUrls:string[] = [];
 
   return ignoredUrls.some(
-    (ignoredUrl) => `/${ignoredUrl}` === ctx.request.url
+    (ignoredUrl) => `/${ignoredUrl}` === ctx.request.path
   );
 }
 
