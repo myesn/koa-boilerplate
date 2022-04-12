@@ -10,7 +10,8 @@ export default class AuthenticationClient {
 
   async findByToken(token: string) {
     const response = await this.http.get<AuthenticationFindByTokenResult>(
-      "/find-by-token"
+      "/find-by-token",
+      { params: { token } }
     );
     return response.data;
   }
