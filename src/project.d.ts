@@ -106,7 +106,7 @@ declare type MongoDBAggregationSwitchOperator = {
 
 declare type MongoDBAggregationDateToStringOperator = {
   /** 要转换为字符串的日期，必须是解析为 Date、Timestamp 或 ObjectID 的有效表达式。 */
-  date: MongoDBAggregationExpression,
+  date: MongoDBAggregationExpression;
   /**
    * 可选的。日期格式规范。 默认："%Y-%m-%dT%H:%M:%S.%LZ",（在本项目中默认为 %Y-%m-%d %H:%M:%S）
    *
@@ -129,10 +129,10 @@ declare type MongoDBAggregationDateToStringOperator = {
    * 如果 date 的值为 null 或没有这个字段，则默认返回 null
    */
   onNull?: MongoDBAggregationExpression;
-}
+};
 
 declare interface KoaCustomAppStateUser {
-  id: ObjectId;
+  id: string;
 }
 
 // https://stackoverflow.com/questions/43160598/adding-properties-to-koa2s-context-in-typescript
