@@ -1,12 +1,13 @@
-# nodejs-simple-project-structure
+# koa-boilerplate
 
-该 repo 作为最小版本的 restful api 项目模板
+该 repo 作为最小版本的 koa restful api 项目模板
 
 node.js + typescript + koa + mongodb
 
 ## 主要依赖库
 
 - typescript
+- ts-node
 - nodemon
 - concurrently
 - koa
@@ -20,3 +21,4 @@ node.js + typescript + koa + mongodb
 - joi
 - qs
 - @tsconfig/node16
+- ...
