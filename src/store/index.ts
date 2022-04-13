@@ -15,6 +15,11 @@ client.connect((error) => {
 
   console.log("connected to mongodb..");
 });
+
+export async function toClient() {
+  return Promise.resolve(client);
+}
+
 export async function toDb<TSchema extends Document = Document>(): Promise<Db> {
   return Promise.resolve(client.db());
 }
