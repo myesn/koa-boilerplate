@@ -1,11 +1,19 @@
 import fs from "fs";
 import mime from "mime-types";
 
+function deleteFile(path: string): void {
+  fs.unlinkSync(path);
+}
+
 export default {
   createDirectory(dir: string): void {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
+  },
+  deleteFile,
+  deleteFiles(paths: string[]): void {
+    paths.forEach((path) => deleteFile(path));
   },
   deleteDirectory(dir: string): void {
     fs.rmSync(dir, { recursive: true, force: true });
