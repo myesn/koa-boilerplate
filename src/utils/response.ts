@@ -17,6 +17,17 @@ function excel(
   ok(ctx, excelWorkbookBuffer);
 }
 
+/** 响应状态码 200 的任意文件流下载 */
+function file(
+    ctx: KoaCustomAppContext,
+    contentType: string,
+    downloadFileName: string,
+    stream: any
+) {
+  setDownloadFileHeader(ctx, contentType, downloadFileName);
+  ok(ctx, stream);
+}
+
 function setHeader(
     ctx: KoaCustomAppContext,
     field: string,
@@ -37,7 +48,7 @@ function setHeaders(
 /**　设置下载文件时所属的响应头 */
 function setDownloadFileHeader(
     ctx: KoaCustomAppContext,
-    kind: FileContentTypeKind,
+    kind: FileContentTypeKind | string,
     downloadFileName: string
 ) {
   setHeaders(ctx, {
