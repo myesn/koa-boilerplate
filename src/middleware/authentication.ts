@@ -8,8 +8,8 @@ const authenticationClient = new AuthenticationClient();
 function isMatchIgnoreAuthorizationEndpoints(ctx: KoaCustomAppContext) {
   const ignoredUrls:string[] = [];
 
-  return ignoredUrls.some(
-    (ignoredUrl) => `/${ignoredUrl}` === ctx.request.path
+  return ignoredUrls.some((ignoredUrl) =>
+      ctx.request.path.startsWith(ignoredUrl)
   );
 }
 
