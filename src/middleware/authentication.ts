@@ -6,10 +6,10 @@ import { KoaCustomAppContext } from "../project";
 const authenticationClient = new AuthenticationClient();
 
 function isMatchIgnoreAuthorizationEndpoints(ctx: KoaCustomAppContext) {
-  const ignoredUrls:string[] = [];
+  const ignoredUrls: string[] = [];
 
   return ignoredUrls.some((ignoredUrl) =>
-      ctx.request.path.startsWith(ignoredUrl)
+    ctx.request.path.startsWith(ignoredUrl)
   );
 }
 
