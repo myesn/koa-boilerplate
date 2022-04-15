@@ -1,5 +1,5 @@
 import { Document } from "bson";
-import { FindOptions, ObjectId } from "mongodb";
+import { ClientSession, FindOptions, ObjectId } from "mongodb";
 import { toClient, toDb, toCollection } from "../store";
 import { mongodbUtils } from "../utils";
 import { PagingResult } from "../project";
@@ -20,8 +20,8 @@ export default class CommonService<TEntity = any> {
   }
 
   async paging(
-    filter: Document,
-    options?: FindOptions
+      filter: Document,
+      options?: FindOptions
   ): Promise<PagingResult<TEntity>> {
     const collection = await this.getCollection();
     const total = await collection.countDocuments(filter);
@@ -67,15 +67,15 @@ export default class CommonService<TEntity = any> {
   }
 
   async findById(
-    id: string | ObjectId,
-    options?: FindOptions
+      id: string | ObjectId,
+      options?: FindOptions
   ): Promise<TEntity | null> {
     const collection = await this.getCollection();
     const row = await collection.findOne(
-      {
-        _id: mongodbUtils.objectId(id),
-      },
-      options
+        {
+          _id: mongodbUtils.objectId(id),
+        },
+        options
     );
     if (!row) {
       return null;
@@ -99,10 +99,11 @@ export default class CommonService<TEntity = any> {
   }
 
   async create(
-    body: { [key: string]: any },
-    options: {
-      autoAddCreateTime: boolean;
-    } = { autoAddCreateTime: true }
+      body: { [key: string]: any },
+      options: {
+        autoAddCreateTime: boolean;
+        session?: ClientSession;
+      } = { autoAddCreateTime: true }
   ): Promise<ObjectId> {
     const collection = await this.getCollection();
 
@@ -110,16 +111,19 @@ export default class CommonService<TEntity = any> {
       body.createTime = new Date();
     }
 
-    const result = await collection.insertOne(body);
+    const result = await collection.insertOne(body, {
+      session: options.session,
+    });
 
     return result.insertedId;
   }
 
   async createMany(
-    bodyArray: { [key: string]: any }[],
-    options: {
-      autoAddCreateTime: boolean;
-    } = { autoAddCreateTime: true }
+      bodyArray: { [key: string]: any }[],
+      options: {
+        autoAddCreateTime: boolean;
+        session?: ClientSession;
+      } = { autoAddCreateTime: true }
   ): Promise<void> {
     const collection = await this.getCollection();
 
@@ -130,15 +134,16 @@ export default class CommonService<TEntity = any> {
       });
     }
 
-    await collection.insertMany(bodyArray);
+    await collection.insertMany(bodyArray, { session: options.session });
   }
 
   async updateById(
-    id: string | ObjectId,
-    update: { [key: string]: any },
-    options: {
-      autoAddUpdateTime: boolean;
-    } = { autoAddUpdateTime: true }
+      id: string | ObjectId,
+      update: { [key: string]: any },
+      options: {
+        autoAddUpdateTime: boolean;
+        session?: ClientSession;
+      } = { autoAddUpdateTime: true }
   ): Promise<void> {
     const collection = await this.getCollection();
 
@@ -147,16 +152,27 @@ export default class CommonService<TEntity = any> {
     }
 
     await collection.updateOne(
-      { _id: mongodbUtils.objectId(id) },
-      {
-        $set: update,
-      }
+        { _id: mongodbUtils.objectId(id) },
+        {
+          $set: update,
+        },
+        {
+          session: options.session,
+        }
     );
   }
 
-  async deleteById(id: string | ObjectId): Promise<void> {
+  async deleteById(
+      id: string | ObjectId,
+      options: {
+        session?: ClientSession;
+      } = {}
+  ): Promise<void> {
     const collection = await this.getCollection();
-    await collection.deleteOne({ _id: mongodbUtils.objectId(id) });
+    await collection.deleteOne(
+        { _id: mongodbUtils.objectId(id) },
+        { session: options.session }
+    );
   }
 
   mapRowId(row: any): { id: ObjectId; [key: string]: any } {
