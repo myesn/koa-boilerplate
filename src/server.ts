@@ -1,5 +1,4 @@
 import "dotenv/config";
-import path from "path";
 import Koa from "koa";
 import cors from "@koa/cors";
 import json from "koa-json";
@@ -21,7 +20,11 @@ const port = process.env.PORT;
 
 // middlewares
 app.use(errorHandler());
-app.use(logger());
+
+if (process.env.NODE_ENV === "development") {
+  app.use(logger());
+}
+
 app.use(cors());
 app.use(authentication());
 app.use(
