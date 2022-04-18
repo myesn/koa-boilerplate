@@ -10,7 +10,8 @@ const client = new MongoClient(process.env.MONGODB_URL);
 console.log("connecting to mongodb..");
 client.connect((error) => {
   if (error) {
-    console.error("connecting error to mongodb..");
+    console.error("connecting error to mongodb..", error);
+    return;
   }
 
   console.log("connected to mongodb..");
