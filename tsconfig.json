@@ -5,8 +5,9 @@
     "rootDir": "src",
     "outDir": "dist",
     "noImplicitAny": true,
+
+    "module": "ESNext",
+    "moduleResolution": "node"
   },
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["src/**/*"]
 }

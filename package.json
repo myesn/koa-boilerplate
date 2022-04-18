@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "main": "dist/server.js",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "build": "tsc",
-    "serve": "node dist/server.js",
+    "serve": "node --experimental-specifier-resolution=node dist/server.js",
     "debug": "yarn build && yarn watch-debug",
     "nodemon-debug": "nodemon --inspect src/server.ts",
     "watch-ts": "tsc -w",
