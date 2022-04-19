@@ -1,7 +1,14 @@
 import { Next } from "koa";
 import { requestUtils } from "../utils";
-import { AuthenticationClient } from "../service";
+// import { AuthenticationClient } from "../service";
 import { KoaCustomAppContext } from "../project";
+
+/** 需要自己实现 */
+class AuthenticationClient {
+  async findByToken(token: string) {
+    return Promise.resolve({ id: "" });
+  }
+}
 
 const authenticationClient = new AuthenticationClient();
 
