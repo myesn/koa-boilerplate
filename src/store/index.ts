@@ -12,7 +12,7 @@ async function connect() {
     MONGODB_PASSWORD: password,
   } = process.env;
 
-  if (!clusterUrl || database) {
+  if (!clusterUrl || !database) {
     throw new Error("缺少数据库连接地址信息");
   }
 
