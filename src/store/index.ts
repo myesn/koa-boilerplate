@@ -43,9 +43,10 @@ async function connect() {
   } catch (e) {
     console.error("connect error to mongodb: ", e);
     throw e;
-  } finally {
-    await client.close();
   }
+  // finally {
+  //   await client.close();
+  // }
 }
 
 export async function toClient() {
