@@ -62,4 +62,4 @@ export enum FileContentTypeKind {
   excel = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 }
 
-export default { ok, excel, setHeader, setHeaders, setDownloadFileHeader };
+export default { ok, excel, file, setHeader, setHeaders, setDownloadFileHeader };
