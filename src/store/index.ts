@@ -1,7 +1,7 @@
 import { Collection, Db, MongoClient } from "mongodb";
 import { Document } from "bson";
 
-const client =  await connect();
+const client = await connect();
 
 async function connect() {
   // const authDb = "admin";
