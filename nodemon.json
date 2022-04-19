@@ -3,7 +3,7 @@
   "ignore": [".git", "node_modules/**/node_modules"],
   "verbose": true,
   "execMap": {
-    "ts": "node --loader ts-node/esm"
+    "ts": "node --experimental-specifier-resolution=node --loader ts-node/esm"
   },
   "watch": ["src/", ".env"],
   "env": {
