@@ -1,9 +1,10 @@
 import { Collection, Db, MongoClient, Document } from "mongodb";
 
+const database = process.env.MONGODB_DATABASE;
 const client = await connect();
 
 async function connect() {
-  // const authDb = "admin";
+  const authDb = "admin";
   const {
     MONGODB_CLUSTER_URL: clusterUrl,
     MONGODB_DATABASE: database,
@@ -11,23 +12,20 @@ async function connect() {
     MONGODB_PASSWORD: password,
   } = process.env;
 
-  if (!clusterUrl || !database) {
+  if (!clusterUrl || !database || !username || !password) {
     throw new Error("缺少数据库连接地址信息");
   }
 
-  let auth;
-  if (username && password) {
-    auth = {
-      username: encodeURIComponent(username),
-      password: encodeURIComponent(password),
-    };
-  }
+  const auth = {
+    username: encodeURIComponent(username),
+    password: encodeURIComponent(password),
+  };
 
-  // const url = `mongodb://${username}:${password}@${clusterUrl}/${authDb}`;
-  const url = `mongodb://${clusterUrl}/${database}`;
+  const url = `mongodb://${auth.username}:${auth.password}@${clusterUrl}/${authDb}`;
+  // const url = `mongodb://${clusterUrl}/${database}`;
   const client = new MongoClient(url, {
     connectTimeoutMS: 5000,
-    auth,
+    // auth,
   });
 
   try {
@@ -53,7 +51,7 @@ export async function toClient() {
 }
 
 export async function toDb<TSchema extends Document = Document>(): Promise<Db> {
-  return Promise.resolve(client.db());
+  return Promise.resolve(client.db(database));
 }
 
 export async function toCollection<TSchema extends Document = Document>(
