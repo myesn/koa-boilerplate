@@ -33,6 +33,7 @@ declare type DefaultSchema = {
   create?: ObjectSchema;
   update?: ObjectSchema;
   delete?: ObjectSchema;
+  [key: string]: any;
 };
 
 declare type PagingParam = {
@@ -45,8 +46,7 @@ declare type PagingResult<TEntity> = {
   total: number;
   items: TEntity[];
 };
-
-declare type MongoDBAggregationExpression = Document | string;
+declare type MongoDBAggregationExpression = Document | string | number | null;
 
 declare type MongoDBAggregationLookupStage = {
   /** 指定要执行联接的同一数据库中的集合 */

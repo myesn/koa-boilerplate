@@ -12,8 +12,6 @@ declare global {
       MONGODB_DATABASE: string;
       MONGODB_USERNAME: string;
       MONGODB_PASSWORD: string;
-
-      AUTHENTICATION_URL: string;
     }
   }
 }
