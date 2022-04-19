@@ -5,7 +5,14 @@ declare global {
       NODE_ENV: "development" | "production";
       APP_NAME: string;
       PORT: number;
-      MONGODB_URL: string;
+
+      // MONGODB_URL: string;
+
+      MONGODB_CLUSTER_URL: string;
+      MONGODB_DATABASE: string;
+      MONGODB_USERNAME: string;
+      MONGODB_PASSWORD: string;
+
       AUTHENTICATION_URL: string;
     }
   }
