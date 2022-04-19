@@ -1,1 +1,1 @@
-export { default as TestController } from './test'
+export { default as TestController } from "./test";

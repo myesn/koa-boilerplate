@@ -6,4 +6,4 @@ export { default as responseUtils } from "./response";
 export { default as arrayUtils } from "./array";
 export { default as enumUtils } from "./enum";
 export { default as fileUtils } from "./file";
-export { default as excelUtils } from './excel';
+export { default as excelUtils } from "./excel";
