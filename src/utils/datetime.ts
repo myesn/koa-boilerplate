@@ -20,7 +20,7 @@ function getUTCDateTimeNow(): string {
   return dayjs.utc().format();
 }
 
-function format(date:Date, format: string){
+function format(date: Date, format: string) {
   return dayjs(date).format(format);
 }
 
