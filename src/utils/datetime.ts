@@ -20,4 +20,8 @@ function getUTCDateTimeNow(): string {
   return dayjs.utc().format();
 }
 
-export default { getUTCDateTimeNow, getFormattedNow, getNow };
+function format(date:Date, format: string){
+  return dayjs(date).format(format);
+}
+
+export default { getUTCDateTimeNow, getFormattedNow, getNow, format };
