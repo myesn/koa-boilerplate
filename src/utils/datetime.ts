@@ -24,4 +24,8 @@ function format(date: Date, format: string) {
   return dayjs(date).format(format);
 }
 
-export default { getUTCDateTimeNow, getFormattedNow, getNow, format };
+function isSameDay(date1: Date, date2:Date){
+  return dayjs(date1).isSame(dayjs(date2), "day");
+}
+
+export default { getUTCDateTimeNow, getFormattedNow, getNow, format, isSameDay };
