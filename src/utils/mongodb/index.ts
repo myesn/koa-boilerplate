@@ -9,4 +9,5 @@ function objectId(
 }
 
 export { Aggregation } from "./aggregation";
+export { querySelector } from "./querySelector";
 export default { objectId };
