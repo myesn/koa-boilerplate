@@ -6,35 +6,35 @@
 /** 比较运算符 https://www.mongodb.com/docs/manual/reference/operator/query/#comparison */
 const comparison = {
   /** == */
-  eq(value: string) {
+  eq(value: any) {
     return { $eq: value };
   },
   /** != */
-  ne(value: string) {
+  ne(value: any) {
     return { $ne: value };
   },
   /** > */
-  gt(value: string) {
+  gt(value: any) {
     return { $gt: value };
   },
   /** >= */
-  gte(value: string) {
+  gte(value: any) {
     return { $gte: value };
   },
   /** < */
-  lt(value: string) {
+  lt(value: any) {
     return { $lt: value };
   },
   /** <= */
-  lte(value: string) {
+  lte(value: any) {
     return { $lte: value };
   },
   /** in */
-  in(array: string[]) {
+  in(array: any[]) {
     return { $in: array };
   },
   /** not in */
-  nin(array: string[]) {
+  nin(array: any[]) {
     return { $nin: array };
   },
 };
