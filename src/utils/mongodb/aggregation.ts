@@ -61,6 +61,9 @@ export class Aggregation {
 
       return { $dateToString: doc };
     },
+    toString(expression: MongoDBAggregationExpression) {
+      return { $toString: expression };
+    },
   };
 
   match(query: Document) {
