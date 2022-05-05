@@ -56,6 +56,21 @@ export default class CommonService<TEntity = any> {
     return count > 0;
   }
 
+  async existsExcludeId(
+    id: string | ObjectId,
+    filter?: Document
+  ): Promise<boolean> {
+    const excludeId = {
+      _id: {
+        $ne: mongodbUtils.objectId(id),
+      },
+    };
+    const filterFinally = filter ? { ...excludeId, ...filter } : excludeId;
+    const count = await this.count(filterFinally);
+
+    return count > 0;
+  }
+
   async find(filter: Document, options?: FindOptions): Promise<TEntity | null> {
     const collection = await this.getCollection();
     const row = await collection.findOne(filter, options);
