@@ -1,4 +1,5 @@
 import "dotenv/config";
+import consola from "consola";
 import Koa from "koa";
 import cors from "@koa/cors";
 import json from "koa-json";
@@ -42,15 +43,15 @@ app.use(queryTypes());
 routerArray.forEach((router) => router(app));
 
 app.listen(port, () => {
-  console.log(
+  consola.info(
     `Node.js v${process.versions.node}  Environment: ${process.env.NODE_ENV}`
   );
-  console.log(
+  consola.success(
     `${process.env.APP_NAME} Server running at http://localhost:${port}`
   );
 });
 
 // error-handling
 app.on("error", (err, ctx) => {
-  console.error("Server error", err, ctx);
+  consola.error("Server error", err, ctx);
 });

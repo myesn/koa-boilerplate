@@ -1,4 +1,5 @@
 import { Collection, Db, MongoClient, Document } from "mongodb";
+import consola from "consola";
 
 const database = process.env.MONGODB_DATABASE;
 const client = await connect();
@@ -29,16 +30,16 @@ async function connect() {
   });
 
   try {
-    console.log("connecting to mongodb..");
+    consola.info("connecting to mongodb..");
 
     await client.connect();
     await client.db().command({ ping: 1 });
 
-    console.log("connected successfully to mongodb..");
+    consola.success("connected successfully to mongodb..");
 
     return client;
   } catch (e) {
-    console.error("connect error to mongodb: ", e);
+    consola.error("connect error to mongodb: ", e);
     throw e;
   }
   // finally {
