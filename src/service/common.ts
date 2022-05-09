@@ -99,10 +99,14 @@ export default class CommonService<TEntity = any> {
     return <any>this.mapRowId(row);
   }
 
-  async getSingleFieldValueById(id: string | ObjectId, fieldName: string) {
+  async getSingleFieldValueById(
+    id: string | ObjectId,
+    fieldName: string,
+    fileValue?: string
+  ) {
     const row = await this.findById(id, {
       projection: {
-        [fieldName]: 1,
+        [fieldName]: fileValue ?? 1,
       },
     });
 
