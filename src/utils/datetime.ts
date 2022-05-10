@@ -3,7 +3,9 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import duration from "dayjs/plugin/duration";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import 'dayjs/locale/zh';
 
+dayjs.locale('zh');
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(duration);
