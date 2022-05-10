@@ -25,6 +25,10 @@ function getUTCDateTimeNow(): string {
 }
 
 function format(date: Date, format: string) {
+  if (date == null) {
+    return null;
+  }
+
   return dayjs(date).format(format);
 }
 
