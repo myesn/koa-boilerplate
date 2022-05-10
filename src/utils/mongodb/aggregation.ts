@@ -8,6 +8,7 @@ import {
   MongoDBAggregationFilterOperator,
   MongoDBAggregationSwitchOperator,
   MongoDBAggregationDateToStringOperator,
+  MongoDBAggregationDateDiffOperator,
 } from "../../project";
 
 export class Aggregation {
@@ -60,6 +61,13 @@ export class Aggregation {
       doc.timezone ??= "Asia/Shanghai";
 
       return { $dateToString: doc };
+    },
+    dateDiff(doc: MongoDBAggregationDateDiffOperator) {
+      doc.timezone ??= "Asia/Shanghai";
+
+      return {
+        $dateDiff: doc,
+      };
     },
     toString(expression: MongoDBAggregationExpression) {
       return { $toString: expression };

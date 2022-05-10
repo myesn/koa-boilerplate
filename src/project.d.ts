@@ -131,6 +131,26 @@ declare type MongoDBAggregationDateToStringOperator = {
   onNull?: MongoDBAggregationExpression;
 };
 
+declare type MongoDBAggregationDateDiffOperator = {
+  /** 时间段的开始。 startDate 可以是解析为日期、时间戳或 ObjectID 的任何表达式。 */
+  startDate: MongoDBAggregationExpression;
+  /** 时间段的结束。 endDate 可以是解析为日期、时间戳或 ObjectID 的任何表达式 */
+  endDate: MongoDBAggregationExpression;
+  /** startDate 和 endDate 之间的时间测量单位。它是一个解析为字符串的表达式 */
+  unit:
+      | "year"
+      | "quarter"
+      | "week"
+      | "month"
+      | "day"
+      | "hour"
+      | "minute"
+      | "second"
+      | "millisecond";
+  /** 时区，默认为 "Asia/Shanghai" */
+  timezone?: string;
+};
+
 declare interface KoaCustomAppStateUser {
   id: string;
 }
