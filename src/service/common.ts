@@ -3,6 +3,7 @@ import { ClientSession, FindOptions, ObjectId } from "mongodb";
 import { toClient, toDb, toCollection } from "../store";
 import { mongodbUtils } from "../utils";
 import { PagingResult } from "../project";
+import { querySelector } from "../utils/mongodb";
 
 export default class CommonService<TEntity = any> {
   constructor(protected collectionName: string) {}
@@ -192,6 +193,18 @@ export default class CommonService<TEntity = any> {
       { _id: mongodbUtils.objectId(id) },
       { session: options.session }
     );
+  }
+
+  async deleteByFilter(filter: Document) {
+    const collection = await this.getCollection();
+    await collection.deleteMany(filter);
+  }
+
+  async deleteByIds(ids: ObjectId[]) {
+    const collection = await this.getCollection();
+    await collection.deleteMany({
+      id: querySelector.comparison.in(ids),
+    });
   }
 
   mapRowId(row: any): { id: ObjectId; [key: string]: any } {
