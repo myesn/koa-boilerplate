@@ -69,15 +69,17 @@ export function toDbSync<TSchema extends Document = Document>(
 }
 
 export async function toCollection<TSchema extends Document = Document>(
-  name: string
+  name: string,
+  databaseName?: string
 ): Promise<Collection<TSchema>> {
-  const db = await toDb();
+  const db = await toDb(databaseName);
   return Promise.resolve(db.collection<TSchema>(name));
 }
 
 export function toCollectionSync<TSchema extends Document = Document>(
-  name: string
+  name: string,
+  databaseName?: string
 ): Collection<TSchema> {
-  const db = toDbSync();
+  const db = toDbSync(databaseName);
   return db.collection<TSchema>(name);
 }
