@@ -1,7 +1,6 @@
 import { Collection, Db, MongoClient, Document } from "mongodb";
 import consola from "consola";
 
-const database = process.env.MONGODB_DATABASE;
 const client = await connect();
 
 async function connect() {
@@ -51,8 +50,12 @@ export async function toClient() {
   return Promise.resolve(client);
 }
 
-export async function toDb<TSchema extends Document = Document>(): Promise<Db> {
-  return Promise.resolve(client.db(database));
+export async function toDb<TSchema extends Document = Document>(
+  databaseName?: string
+): Promise<Db> {
+  return Promise.resolve(
+    client.db(databaseName ?? process.env.MONGODB_DATABASE)
+  );
 }
 
 export async function toCollection<TSchema extends Document = Document>(
