@@ -50,6 +50,10 @@ export async function toClient() {
   return Promise.resolve(client);
 }
 
+export function toClientSync() {
+  return client;
+}
+
 export async function toDb<TSchema extends Document = Document>(
   databaseName?: string
 ): Promise<Db> {
@@ -58,9 +62,22 @@ export async function toDb<TSchema extends Document = Document>(
   );
 }
 
+export function toDbSync<TSchema extends Document = Document>(
+  databaseName?: string
+): Db {
+  return client.db(databaseName ?? process.env.MONGODB_DATABASE);
+}
+
 export async function toCollection<TSchema extends Document = Document>(
   name: string
 ): Promise<Collection<TSchema>> {
   const db = await toDb();
   return Promise.resolve(db.collection<TSchema>(name));
+}
+
+export function toCollectionSync<TSchema extends Document = Document>(
+  name: string
+): Collection<TSchema> {
+  const db = toDbSync();
+  return db.collection<TSchema>(name);
 }
