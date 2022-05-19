@@ -72,6 +72,18 @@ export class Aggregation {
     toString(expression: MongoDBAggregationExpression) {
       return { $toString: expression };
     },
+    min(expression: MongoDBAggregationExpression) {
+      return { $min: expression };
+    },
+    max(expression: MongoDBAggregationExpression) {
+      return { $max: expression };
+    },
+    avg(expression: MongoDBAggregationExpression) {
+      return { $avg: expression };
+    },
+    floor(expression: MongoDBAggregationExpression) {
+      return { $floor: expression };
+    },
   };
 
   match(query: Document) {
