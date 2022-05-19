@@ -84,6 +84,9 @@ export class Aggregation {
     floor(expression: MongoDBAggregationExpression) {
       return { $floor: expression };
     },
+    sum() {
+      return { $sum: 1 };
+    },
   };
 
   match(query: Document) {
