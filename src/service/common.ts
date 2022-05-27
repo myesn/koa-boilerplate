@@ -1,11 +1,13 @@
-import { Document } from "bson";
-import { ClientSession, FindOptions, ObjectId } from "mongodb";
+import { ClientSession, FindOptions, ObjectId, Document } from "mongodb";
 import { toClient, toDb, toCollection } from "../store";
 import { mongodbUtils } from "../utils";
 import { PagingResult } from "../project";
 import { querySelector } from "../utils/mongodb";
+import { IdEntity, CreateTimeEntity, UpdateTimeEntity } from "../entity";
 
-export default class CommonService<TEntity = any> {
+export default class CommonService<
+  TEntity extends IdEntity & CreateTimeEntity & UpdateTimeEntity
+> {
   constructor(protected collectionName: string) {}
 
   async getClient() {
@@ -119,11 +121,8 @@ export default class CommonService<TEntity = any> {
   }
 
   async create(
-    body: { [key: string]: any },
-    options: {
-      autoAddCreateTime?: boolean;
-      session?: ClientSession;
-    } = { autoAddCreateTime: true }
+    body: Partial<TEntity>,
+    options: CommonCreateOptions = { autoAddCreateTime: true }
   ): Promise<ObjectId> {
     const collection = await this.getCollection();
 
@@ -139,11 +138,8 @@ export default class CommonService<TEntity = any> {
   }
 
   async createMany(
-    bodyArray: { [key: string]: any }[],
-    options: {
-      autoAddCreateTime?: boolean;
-      session?: ClientSession;
-    } = { autoAddCreateTime: true }
+    bodyArray: Partial<TEntity>[],
+    options: CommonCreateOptions = { autoAddCreateTime: true }
   ): Promise<void> {
     const collection = await this.getCollection();
 
@@ -159,22 +155,19 @@ export default class CommonService<TEntity = any> {
 
   async updateById(
     id: string | ObjectId,
-    update: { [key: string]: any },
-    options: {
-      autoAddUpdateTime?: boolean;
-      session?: ClientSession;
-    } = { autoAddUpdateTime: true }
+    body: Partial<TEntity>,
+    options: CommonUpdateOptions = { autoAddUpdateTime: true }
   ): Promise<void> {
     const collection = await this.getCollection();
 
     if (options.autoAddUpdateTime) {
-      update.updateTime = new Date();
+      body.updateTime = new Date();
     }
 
     await collection.updateOne(
       { _id: mongodbUtils.objectId(id) },
       {
-        $set: update,
+        $set: body,
       },
       {
         session: options.session,
@@ -184,9 +177,7 @@ export default class CommonService<TEntity = any> {
 
   async deleteById(
     id: string | ObjectId,
-    options: {
-      session?: ClientSession;
-    } = {}
+    options: CommonDeleteOptions = {}
   ): Promise<void> {
     const collection = await this.getCollection();
     await collection.deleteOne(
@@ -215,3 +206,15 @@ export default class CommonService<TEntity = any> {
     };
   }
 }
+
+export type CommonCreateOptions = {
+  autoAddCreateTime?: boolean;
+  session?: ClientSession;
+};
+export type CommonUpdateOptions = {
+  autoAddUpdateTime?: boolean;
+  session?: ClientSession;
+};
+export type CommonDeleteOptions = {
+  session?: ClientSession;
+};

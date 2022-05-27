@@ -1,5 +1,4 @@
-import { IdEntity } from "./id";
-import { CreateTimeEntity, UpdateTimeEntity } from "./time";
+import { IdEntity, CreateTimeEntity, UpdateTimeEntity } from "./index";
 
 export type TestEntity = IdEntity &
   CreateTimeEntity &
