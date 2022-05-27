@@ -6,7 +6,7 @@ import { querySelector } from "../utils/mongodb";
 import { IdEntity, CreateTimeEntity, UpdateTimeEntity } from "../entity";
 
 export default class CommonService<
-  TEntity extends IdEntity & CreateTimeEntity & UpdateTimeEntity
+  TEntity extends IdEntity & Partial<CreateTimeEntity & UpdateTimeEntity>
 > {
   constructor(protected collectionName: string) {}
 
